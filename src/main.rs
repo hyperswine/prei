@@ -65,6 +65,9 @@ fn generate_proj(dir_path: &str) {
         .arg(dir_path)
         .output()
         .expect(&format!("Couldn't create directory at {dir_path}"));
+    
+    // read template/ into memory as a Dir
+    // maybe just wget?
 
     // copy template
     process::Command::new("cp")
