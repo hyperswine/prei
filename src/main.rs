@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use std::{
     fmt::{self, Display},
+    io::stdin,
     process,
     str::FromStr,
 };
@@ -95,6 +96,33 @@ fn generate_proj(dir_path: &str) {
         .unwrap();
 }
 
+fn new_proj_ui() {
+    // get all the vars of project.rei
+    println!("Project name: ");
+    let mut _str = String::new();
+    stdin().read_line(&mut _str).ok().unwrap();
+
+    println!("Author: ");
+    stdin().read_line(&mut _str).ok().unwrap();
+
+    println!("Description: ");
+    stdin().read_line(&mut _str).ok().unwrap();
+}
+
 fn main() {
     let args = Args::parse();
+
+    // if New name is defined, call the fn
+    // if no name, call the ui? or ehh
+    match args.command {
+        Commands::New { name } => generate_proj(&name.unwrap()),
+        Commands::Init { name } => {
+            println!("Not implemented!")
+        }
+    }
+}
+
+#[test]
+fn test_ui() {
+    new_proj_ui();
 }
