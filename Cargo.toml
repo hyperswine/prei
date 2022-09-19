@@ -8,3 +8,4 @@ description = "Rei Package Management Tool"
 
 [dependencies]
 clap = { version = "3", features = ["derive"] }
+reqwest = "0.11"

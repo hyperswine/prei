@@ -47,6 +47,7 @@ enum Commands {
 }
 
 const PREI_VERSION: f32 = 0.1;
+const URL: &'static str = "https://github.com/hyperswine/prei/archive/refs/tags/v1.zip";
 
 // basically, when you run prei new <name> you run this fn
 fn generate_proj(dir_path: &str) {
@@ -65,17 +66,31 @@ fn generate_proj(dir_path: &str) {
         .arg(dir_path)
         .output()
         .expect(&format!("Couldn't create directory at {dir_path}"));
-    
-    // read template/ into memory as a Dir
-    // maybe just wget?
 
-    // copy template
-    process::Command::new("cp")
-        .arg("-R")
+    // fetch template
+    process::Command::new("wget")
+        .arg(URL)
+        .arg("-p")
+        .arg(dir_path)
+        .output()
+        .expect(&format!(
+            "Couldn't download template to directory \"{dir_path}\". Is wget installed?"
+        ));
+
+    // unzip
+    process::Command::new("unzip")
+        .arg("prei")
         .arg("template")
         .arg(dir_path)
         .output()
-        .expect(&format!("Couldn't create directory at {dir_path}"));
+        .expect(&format!("Couldn't unzip template, is it installed?"));
+
+    // delete
+    process::Command::new("rm")
+        .arg("-rf")
+        .arg("prei")
+        .output()
+        .unwrap();
 
     // replace text in build.rei & project.rei
     let build_rei = dir_path.to_owned() + "/build.rei";
@@ -114,6 +129,7 @@ fn main() {
 
     // if New name is defined, call the fn
     // if no name, call the ui? or ehh
+
     match args.command {
         Commands::New { name } => generate_proj(&name.unwrap()),
         Commands::Init => generate_proj("."),
