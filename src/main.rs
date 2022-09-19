@@ -1,4 +1,4 @@
-use clap::Parser;
+use clap::{Parser, Subcommand};
 use std::{
     fmt::{self, Display},
     str::FromStr,
@@ -26,21 +26,23 @@ impl FromStr for Target {
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
+#[clap(propagate_version = true)]
 struct Args {
-    #[clap(short, long, value_parser)]
-    name: String,
+    #[clap(subcommand)]
+    command: Commands,
 
     #[clap(short, long, value_parser, default_value = "neutron-riscv64")]
     target: String,
+}
 
-    #[clap(short, long, value_parser, default_value_t = 1)]
-    count: u8,
+#[derive(Debug, Subcommand)]
+enum Commands {
+    Add {
+        #[clap(value_parser)]
+        name: Option<String>,
+    },
 }
 
 fn main() {
     let args = Args::parse();
-
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name)
-    }
 }
