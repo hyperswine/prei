@@ -37,10 +37,14 @@ struct Args {
 
 #[derive(Debug, Subcommand)]
 enum Commands {
-    Add {
+    New {
         #[clap(value_parser)]
         name: Option<String>,
     },
+    Init {
+        #[clap(value_parser)]
+        name: Option<String>,
+    }
 }
 
 fn main() {
