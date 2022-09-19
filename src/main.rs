@@ -72,7 +72,7 @@ fn generate_proj(dir_path: &str) {
     // copy template
     process::Command::new("cp")
         .arg("-R")
-        .arg("templates")
+        .arg("template")
         .arg(dir_path)
         .output()
         .expect(&format!("Couldn't create directory at {dir_path}"));
