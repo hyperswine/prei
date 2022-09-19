@@ -1,3 +1,5 @@
+# THIS FILE DEFINES YOUR MAIN FUNCTION'S NAMESPACE
+
 fn main() -> Status {
     println("Hello, World!")
 }

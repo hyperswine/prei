@@ -47,6 +47,12 @@ enum Commands {
     }
 }
 
+// basically, when you run prei new <name> you run this fn
+fn generate_proj() {
+    // if executable, go into project.rei
+    // build.rei
+}
+
 fn main() {
     let args = Args::parse();
 }
