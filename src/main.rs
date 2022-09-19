@@ -47,68 +47,47 @@ enum Commands {
 }
 
 const PREI_VERSION: f32 = 0.1;
-const URL: &'static str = "https://github.com/hyperswine/prei/archive/refs/tags/v1.zip";
+const URL: &'static str = "https://github.com/hyperswine/prei-template.git";
+const PREI_ZIP: &'static str = "v1.zip";
+
+// NOTE: prei new only works on relative paths
 
 // basically, when you run prei new <name> you run this fn
 fn generate_proj(dir_path: &str) {
-    // should prob get version from the .version?
     let _str = format!(
         "std = {{ version = {PREI_VERSION} }}
     test = {{ version = {PREI_VERSION} }}"
     );
 
-    // maybe in core lib you could do that
-    // in std also provide an overload for easier stuff
-
-    // create dir
-    process::Command::new("mkdir")
-        .arg("-p")
-        .arg(dir_path)
-        .output()
-        .expect(&format!("Couldn't create directory at {dir_path}"));
-
     // fetch template
-    process::Command::new("wget")
+    process::Command::new("git")
+        .arg("clone")
         .arg(URL)
-        .arg("-p")
         .arg(dir_path)
         .output()
         .expect(&format!(
-            "Couldn't download template to directory \"{dir_path}\". Is wget installed?"
+            "Couldn't download template to directory \"{dir_path}\". Is git installed?"
         ));
-
-    // unzip
-    process::Command::new("unzip")
-        .arg("prei")
-        .arg("template")
-        .arg(dir_path)
-        .output()
-        .expect(&format!("Couldn't unzip template, is it installed?"));
-
-    // delete
-    process::Command::new("rm")
-        .arg("-rf")
-        .arg("prei")
-        .output()
-        .unwrap();
 
     // replace text in build.rei & project.rei
     let build_rei = dir_path.to_owned() + "/build.rei";
     let project_rei = dir_path.to_owned() + "/project.rei";
 
-    process::Command::new("sed")
-        .arg("-i")
-        .arg(format!("s/$require/{_str}/g"))
-        .arg(build_rei)
-        .output()
-        .expect("Oops, couldnt replace the text in build.rei");
+    // process::Command::new("sed")
+    //     .arg("-i")
+    //     .arg(format!("s/$require/{_str}/g"))
+    //     .arg(build_rei)
+    //     .output()
+    //     .expect("Oops, couldnt replace the text in build.rei");
 
-    process::Command::new("sed")
-        .arg("-i")
-        .arg("s/$version/0.1/g")
-        .arg(project_rei)
-        .output()
-        .unwrap();
+    // process::Command::new("sed")
+    //     .arg("-i")
+    //     .arg("s/$version/0.1/g")
+    //     .arg(project_rei)
+    //     .output()
+    //     .unwrap();
+
+    // bascially read_to_string, then use regex to find the start and end of the parts you want. And replace that part with your propaganda
 }
 
 fn new_proj_ui() {
