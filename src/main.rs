@@ -43,10 +43,7 @@ enum Commands {
         #[clap(value_parser)]
         name: Option<String>,
     },
-    Init {
-        #[clap(value_parser)]
-        name: Option<String>,
-    },
+    Init,
 }
 
 const PREI_VERSION: f32 = 0.1;
@@ -116,9 +113,7 @@ fn main() {
     // if no name, call the ui? or ehh
     match args.command {
         Commands::New { name } => generate_proj(&name.unwrap()),
-        Commands::Init { name } => {
-            println!("Not implemented!")
-        }
+        Commands::Init => generate_proj("."),
     }
 }
 
