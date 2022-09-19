@@ -2,6 +2,8 @@
 name = "prei"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+authors = ["Jasen Qin"]
 
 [dependencies]
 clap = { version = "3", features = ["derive"] }
