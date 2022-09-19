@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 license-file = "LICENSE"
 authors = ["Jasen Qin"]
+description = "Rei Package Management Tool"
 
 [dependencies]
 clap = { version = "3", features = ["derive"] }
