@@ -53,7 +53,7 @@ const PREI_ZIP: &'static str = "v1.zip";
 // NOTE: prei new only works on relative paths
 
 // basically, when you run prei new <name> you run this fn
-fn generate_proj(dir_path: &str) {
+fn generate_proj(dir_path: &str, mv: bool) {
     let _str = format!(
         "std = {{ version = {PREI_VERSION} }}
     test = {{ version = {PREI_VERSION} }}"
@@ -68,6 +68,19 @@ fn generate_proj(dir_path: &str) {
         .expect(&format!(
             "Couldn't download template to directory \"{dir_path}\". Is git installed?"
         ));
+
+    // move the stuff dir_path/* into .
+    if mv {
+        let mv_dir = dir_path.to_owned() + "/*";
+
+        process::Command::new("mv")
+            .arg(mv_dir)
+            .arg(".")
+            .output()
+            .expect(&format!(
+                "Couldn't download template to directory \"{dir_path}\". Is git installed?"
+            ));
+    }
 
     // replace text in build.rei & project.rei
     let build_rei = dir_path.to_owned() + "/build.rei";
@@ -110,8 +123,8 @@ fn main() {
     // if no name, call the ui? or ehh
 
     match args.command {
-        Commands::New { name } => generate_proj(&name.unwrap()),
-        Commands::Init => generate_proj("."),
+        Commands::New { name } => generate_proj(&name.unwrap(), false),
+        Commands::Init => generate_proj(".", true),
     }
 }
 
