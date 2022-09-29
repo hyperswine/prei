@@ -69,6 +69,13 @@ fn generate_proj(dir_path: &str, mv: bool) {
             "Couldn't download template to directory \"{dir_path}\". Is git installed?"
         ));
 
+    // rm -rf .git
+    process::Command::new("rm")
+        .arg("-rf")
+        .arg(dir_path)
+        .output()
+        .expect("Couldn't delete the .git folder!");
+
     // move the stuff dir_path/* into .
     if mv {
         let mv_dir = dir_path.to_owned() + "/*";
@@ -85,6 +92,10 @@ fn generate_proj(dir_path: &str, mv: bool) {
     // replace text in build.rei & project.rei
     let build_rei = dir_path.to_owned() + "/build.rei";
     let project_rei = dir_path.to_owned() + "/project.rei";
+
+    // NOTE: project name = dir_path pretty much
+    // but also start a REPL to ask user to input the rest
+    // or just leave for now
 
     // process::Command::new("sed")
     //     .arg("-i")
