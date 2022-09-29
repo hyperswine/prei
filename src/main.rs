@@ -35,6 +35,9 @@ struct Args {
 
     #[clap(short, long, value_parser, default_value = "neutron-riscv64")]
     target: String,
+
+    // add a -repl flag to start the repl if needed?
+    // uhh hmm IDK
 }
 
 #[derive(Debug, Subcommand)]
