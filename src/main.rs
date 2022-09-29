@@ -88,8 +88,15 @@ fn generate_proj(dir_path: &str, mv: bool) {
             .arg(".")
             .output()
             .expect(&format!(
-                "Couldn't download template to directory \"{dir_path}\". Is git installed?"
+                "Couldn't move template to directory current directory..."
             ));
+        
+        // rm the temp dir
+        process::Command::new("rm")
+        .arg("-rf")
+        .arg(dir_path)
+        .output()
+        .expect("Couldn't delete the temp dir!!!!");
     }
 
     // replace text in build.rei & project.rei
@@ -138,7 +145,7 @@ fn main() {
 
     match args.command {
         Commands::New { name } => generate_proj(&name.unwrap(), false),
-        Commands::Init => generate_proj(".", true),
+        Commands::Init => generate_proj("___x__rei_proj", true),
     }
 }
 
