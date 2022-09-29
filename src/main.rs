@@ -75,7 +75,7 @@ fn generate_proj(dir_path: &str, mv: bool) {
     // rm -rf .git
     process::Command::new("rm")
         .arg("-rf")
-        .arg(dir_path)
+        .arg(dir_path.to_owned() + "/.git")
         .output()
         .expect("Couldn't delete the .git folder!");
 
